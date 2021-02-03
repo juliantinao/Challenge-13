@@ -12,12 +12,14 @@
     Movies no-args constructor
 **************************************************************************/
 Movies::Movies() {
+    movies = new std::vector<Movie>;
 }
 
 /*************************************************************************
     Movies destructor
 **************************************************************************/
 Movies::~Movies() {
+    delete movies;
 }
 
   /*************************************************************************
@@ -33,13 +35,13 @@ Movies::~Movies() {
 bool Movies::add_movie(std::string name, std::string rating, int watched) {
     // you implement this method
 
-    for (const auto &movie : movies) {
+    for (const auto &movie : *movies) {
         if (movie.get_name() == name) { 
             return false; 
         }
     }
-    movies.push_back(Movie(name, rating, watched));
- 
+    movies->push_back(Movie(name, rating, watched));
+    return true;
 }
 
  /*************************************************************************
@@ -57,7 +59,7 @@ bool Movies::increment_watched(std::string name) {
    // you implement this method
     //Movie* moviepunt{ nullptr };
 
-    for (auto &movie: movies) {
+    for (auto &movie: *movies) {
         //moviepunt = &movies[i];
         if (movie.get_name()== name) {
             movie.increment_watched();
@@ -78,12 +80,12 @@ bool Movies::increment_watched(std::string name) {
 void Movies::display() const {
    // You implement this method
     
-    if (movies.empty()) {
+    if (movies->empty()) {
         std::cout << "Movies esta vacío" << std::endl;
     }
     else
     {
-        for (const auto &movie : movies) {
+        for (const auto &movie : *movies) {
             movie.display();
         }
     }
